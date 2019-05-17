@@ -4,7 +4,7 @@ import sqlite3
 
 conn = sqlite3.connect('mentions.db')  # создается база данных
 c = conn.cursor()
-c.execute("CREATE TABLE mentions( First_mention boolean, Именная группа text, Предложение text)")
+c.execute("CREATE TABLE mentions( First_mention boolean, Именная_группа text, Предложение text)")
 for i in range(3987):
     firstmentionsid = []  # пустой список для будущих идентификаторов первых упоминаний
     secondmentionid = []  # пустой список для будущих идентификаторов вторых упоминаний
