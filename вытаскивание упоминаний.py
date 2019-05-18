@@ -4,7 +4,7 @@ import sqlite3
 
 conn = sqlite3.connect('mentions.db')  # создается база данных
 c = conn.cursor()
-c.execute("CREATE TABLE mentions( First_mention boolean, Именная_группа text, Предложение text)")
+c.execute("CREATE TABLE mentions( First_mention boolean, Именная_группа text, Предложение text, Файл integer)")
 for i in range(3987):
     firstmentionsid = []  # пустой список для будущих идентификаторов первых упоминаний
     secondmentionid = []  # пустой список для будущих идентификаторов вторых упоминаний
@@ -32,7 +32,7 @@ for i in range(3987):
                 for sent in sentences:  #  ищется предложение, в которое входит рассматриваемая ИГ
                     sent_ind = text.index(sent)  # позиция предложения в целиковом тексте
                     if offset>=sent_ind and offset+length<=sent_ind+len(sent) and sent_ind not in sent_list:
-                        c.execute('INSERT INTO mentions VALUES (?, ?, ?)', (x, text[offset:offset+length+1], sent))  # создание одной строчки файла в базе данных
+                        c.execute('INSERT INTO mentions VALUES (?, ?, ?, ?)', (x, text[offset:offset+length+1], sent, i))  # создание одной строчки файла в базе данных
                         conn.commit()
                         sent_list.append(sent_ind)  # пополнение списка с индексами уже использованных предложений
 
@@ -48,7 +48,7 @@ for i in range(3987):
                 for sent in sentences:
                     sent_ind = text.index(sent)
                     if offset >= sent_ind and offset + length <= sent_ind + len(sent) and sent_ind not in sent_list:
-                        c.execute('INSERT INTO mentions VALUES (?, ?, ?)', (x, text[offset:offset + length + 1], sent))
+                        c.execute('INSERT INTO mentions VALUES (?, ?, ?, ?)', (x, text[offset:offset + length + 1], sent, i))
                         conn.commit()
                         sent_list.append(sent_ind)
 
@@ -64,8 +64,8 @@ for i in range(3987):
                 for sent in sentences:
                     sent_ind = text.index(sent)
                     if offset >= sent_ind and offset + length <= sent_ind + len(sent) and sent_ind not in sent_list:
-                        c.execute('INSERT INTO mentions VALUES (?, ?, ?)', (
-                        x, text[offset:offset + length + 1], sent))  # создание одной строчки файла в базе данных
+                        c.execute('INSERT INTO mentions VALUES (?, ?, ?, ?)', (
+                        x, text[offset:offset + length + 1], sent, i))  # создание одной строчки файла в базе данных
                         conn.commit()
                         sent_list.append(sent_ind)
 
